@@ -1,0 +1,137 @@
+metadata:
+  generated: "2026-11-15"
+  source_spec: "User-provided Product Chatbot with Tool Calling prompt"
+  target_plan: "PLAN.md"
+
+summary:
+  total_requirements: 10
+  covered_requirements: 10
+  missing_requirements: 0
+  coverage_percentage: 100.0
+
+requirements:
+  - req_id: "REQ-001"
+    req_description: "Separate FE/BE/AI deployments, private FastAPI service, LangChain integration, and per-service lifecycle"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 1"
+      phase_name: "Establish the Python service foundation"
+      items:
+        - item_id: "1.1"
+          description: "Configure a reproducible uv project"
+        - item_id: "1.2"
+          description: "Establish settings, app, database lifecycle, and health endpoints"
+  - req_id: "REQ-002"
+    req_description: "Backend-owned product/variant catalog and indexes"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 2"
+      phase_name: "Define catalog contracts and ingestion"
+      items:
+        - item_id: "2.1"
+          description: "Add catalog domain/schema types and index management"
+  - req_id: "REQ-003"
+    req_description: "Idempotent backend catalog seed and incremental derived-search indexing"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 2"
+      phase_name: "Define catalog contracts and ingestion"
+      items:
+        - item_id: "2.2"
+          description: "Add seed/import and incremental indexing commands"
+  - req_id: "REQ-004"
+    req_description: "Filtered Atlas hybrid retrieval and fresh canonical records behind backend APIs"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 3"
+      phase_name: "Implement safe catalog retrieval"
+      items:
+        - item_id: "3.1"
+          description: "Implement query construction and hybrid candidate fusion"
+        - item_id: "3.2"
+          description: "Re-read canonical product/variant records"
+        - item_id: "3.3"
+          description: "Cover retrieval freshness, fallback, and failures"
+  - req_id: "REQ-005"
+    req_description: "Three validated AI tools over authenticated backend catalog APIs"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 4"
+      phase_name: "Add validated product tools"
+      items:
+        - item_id: "4.1"
+          description: "Implement strict schemas and validated dispatch"
+        - item_id: "4.2"
+          description: "Implement search, detail, and compare operations"
+        - item_id: "4.3"
+          description: "Test invalid inputs and execution limits"
+  - req_id: "REQ-006"
+    req_description: "Configured AI chat profiles and independent backend catalog embeddings"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 5"
+      phase_name: "Integrate model profiles and chat orchestration"
+      items:
+        - item_id: "5.1"
+          description: "Implement model profiles and provider capability checks"
+        - item_id: "5.3"
+          description: "Add provider smoke tests"
+  - req_id: "REQ-007"
+    req_description: "Bounded tool orchestration and grounded conversational behavior"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 5"
+      phase_name: "Integrate model profiles and chat orchestration"
+      items:
+        - item_id: "5.2"
+          description: "Implement bounded tool-call loop"
+        - item_id: "5.3"
+          description: "Add conversation acceptance cases"
+  - req_id: "REQ-008"
+    req_description: "Public backend chat API, private AI endpoint, scoped history, controls, and telemetry"
+    priority: "P1"
+    plan_mapping:
+      phase: "Step 6"
+      phase_name: "Deliver secure chat API and operations"
+      items:
+        - item_id: "6.1"
+          description: "Implement versioned chat API"
+        - item_id: "6.2"
+          description: "Implement conversation isolation and retention"
+        - item_id: "6.3"
+          description: "Implement operational request controls"
+  - req_id: "REQ-009"
+    req_description: "Cross-profile evaluation metrics and export"
+    priority: "P2"
+    plan_mapping:
+      phase: "Step 7"
+      phase_name: "Add model evaluation and acceptance validation"
+      items:
+        - item_id: "7.1"
+          description: "Implement evaluation runner and result export"
+        - item_id: "7.2"
+          description: "Validate profiles and acceptance cases"
+  - req_id: "REQ-010"
+    req_description: "Per-service readiness, least privilege, service identity, secrets, and staging guidance"
+    priority: "P1"
+    plan_mapping:
+      phase: "Steps 1, 6, 7"
+      phase_name: "Foundation, operations, and acceptance"
+      items:
+        - item_id: "1.2"
+          description: "Establish settings and health endpoints"
+        - item_id: "6.4"
+          description: "Verify database and search-index readiness"
+        - item_id: "6.5"
+          description: "Document deployment and security requirements"
+        - item_id: "7.2"
+          description: "Validate against staging Atlas"
+
+missing_requirements: []
+orphan_plan_items: []
+
+validation:
+  passed: true
+  errors: []
+  warnings:
+    - "Requirement IDs were assigned for traceability because the source prompt did not provide IDs."

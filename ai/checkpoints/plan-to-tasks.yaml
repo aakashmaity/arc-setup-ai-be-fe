@@ -1,0 +1,231 @@
+metadata:
+  generated: "2026-11-15"
+  source_plan: "PLAN.md"
+  target_tasks: "PLAN.md (inline task list)"
+
+summary:
+  total_plan_items: 20
+  covered_plan_items: 20
+  missing_plan_items: 0
+  coverage_percentage: 100.0
+  total_tasks_generated: 23
+  orphan_tasks: 0
+
+phases:
+  - phase_id: "Step-1"
+    phase_name: "Establish the Python service foundation"
+    items:
+      - item_id: "1.1"
+        description: "Configure a reproducible uv project"
+        tasks:
+          - task_id: "T001"
+            description: "Declare and lock runtime, dev, and experiments dependencies"
+          - task_id: "T002"
+            description: "Create package skeleton, project skill, and setup documentation"
+      - item_id: "1.2"
+        description: "Establish settings, application, database lifecycle, and health"
+        tasks:
+          - task_id: "T003"
+            description: "Implement settings, app factory, and async MongoDB lifecycle"
+          - task_id: "T004"
+            description: "Add health routes and tests"
+          - task_id: "T005"
+            description: "Add placeholder configuration and ignore local secrets"
+  - phase_id: "Step-2"
+    phase_name: "Define catalog contracts and ingestion"
+    items:
+      - item_id: "2.1"
+        description: "Add catalog domain/schema types and indexes"
+        tasks:
+          - task_id: "T006"
+            description: "Define catalog types and persistence indexes"
+      - item_id: "2.2"
+        description: "Add seed/import and incremental indexing"
+        tasks:
+          - task_id: "T007"
+            description: "Implement import and indexing commands"
+  - phase_id: "Step-3"
+    phase_name: "Implement safe catalog retrieval"
+    items:
+      - item_id: "3.1"
+        description: "Implement query construction and hybrid fusion"
+        tasks:
+          - task_id: "T008"
+            description: "Implement Atlas filters, fusion, and bounded result selection"
+      - item_id: "3.2"
+        description: "Re-read canonical product/variant records"
+        tasks:
+          - task_id: "T009"
+            description: "Implement canonical rereads and variant constraint checks"
+      - item_id: "3.3"
+        description: "Cover retrieval freshness, fallback, and failures"
+        tasks:
+          - task_id: "T010"
+            description: "Add retrieval integration coverage"
+  - phase_id: "Step-4"
+    phase_name: "Add validated product tools"
+    items:
+      - item_id: "4.1"
+        description: "Implement strict schemas and validated dispatch"
+        tasks:
+          - task_id: "T011"
+            description: "Implement tool schemas and dispatch"
+      - item_id: "4.2"
+        description: "Implement search, detail, and compare operations"
+        tasks:
+          - task_id: "T012"
+            description: "Implement product tool operations"
+      - item_id: "4.3"
+        description: "Test invalid inputs and execution limits"
+        tasks:
+          - task_id: "T013"
+            description: "Test schema, injection, money, variant, and budget boundaries"
+  - phase_id: "Step-5"
+    phase_name: "Integrate model profiles and chat orchestration"
+    items:
+      - item_id: "5.1"
+        description: "Implement profiles and provider capability checks"
+        tasks:
+          - task_id: "T014"
+            description: "Add configured profile factory and capability checks"
+      - item_id: "5.2"
+        description: "Implement bounded tool-call loop"
+        tasks:
+          - task_id: "T015"
+            description: "Implement tool orchestration and preserve call IDs"
+      - item_id: "5.3"
+        description: "Add profile smoke tests and conversation acceptance cases"
+        tasks:
+          - task_id: "T016"
+            description: "Add provider and conversation tests"
+  - phase_id: "Step-6"
+    phase_name: "Deliver secure chat API and operations"
+    items:
+      - item_id: "6.1"
+        description: "Implement versioned chat API"
+        tasks:
+          - task_id: "T017"
+            description: "Add chat schemas and endpoint"
+      - item_id: "6.2"
+        description: "Implement conversation isolation and retention"
+        tasks:
+          - task_id: "T018"
+            description: "Implement TTL, ownership, and turn serialization"
+      - item_id: "6.3"
+        description: "Implement operational request controls"
+        tasks:
+          - task_id: "T019"
+            description: "Add request limits, retries, deadlines, and logging"
+      - item_id: "6.4"
+        description: "Verify database and search-index readiness"
+        tasks:
+          - task_id: "T020"
+            description: "Check required Atlas indexes in readiness"
+      - item_id: "6.5"
+        description: "Document deployment and security requirements"
+        tasks:
+          - task_id: "T021"
+            description: "Document permissions, secrets, and staging deployment"
+  - phase_id: "Step-7"
+    phase_name: "Add model evaluation and acceptance validation"
+    items:
+      - item_id: "7.1"
+        description: "Implement evaluation runner and export"
+        tasks:
+          - task_id: "T022"
+            description: "Add multi-profile evaluation metrics and output"
+      - item_id: "7.2"
+        description: "Validate profiles and acceptance cases"
+        tasks:
+          - task_id: "T023"
+            description: "Run staging Atlas acceptance validation"
+
+missing_plan_items: []
+orphan_tasks: []
+
+upstream_trace:
+  - plan_item: "1.1"
+    source_requirements: ["REQ-001"]
+    tasks: ["T001", "T002"]
+    full_trace: "REQ-001 → Step 1.1 → T001,T002"
+  - plan_item: "1.2"
+    source_requirements: ["REQ-001", "REQ-010"]
+    tasks: ["T003", "T004", "T005"]
+    full_trace: "REQ-001,REQ-010 → Step 1.2 → T003,T004,T005"
+  - plan_item: "2.1"
+    source_requirements: ["REQ-002"]
+    tasks: ["T006"]
+    full_trace: "REQ-002 → Step 2.1 → T006"
+  - plan_item: "2.2"
+    source_requirements: ["REQ-003"]
+    tasks: ["T007"]
+    full_trace: "REQ-003 → Step 2.2 → T007"
+  - plan_item: "3.1"
+    source_requirements: ["REQ-004"]
+    tasks: ["T008"]
+    full_trace: "REQ-004 → Step 3.1 → T008"
+  - plan_item: "3.2"
+    source_requirements: ["REQ-004"]
+    tasks: ["T009"]
+    full_trace: "REQ-004 → Step 3.2 → T009"
+  - plan_item: "3.3"
+    source_requirements: ["REQ-004"]
+    tasks: ["T010"]
+    full_trace: "REQ-004 → Step 3.3 → T010"
+  - plan_item: "4.1"
+    source_requirements: ["REQ-005"]
+    tasks: ["T011"]
+    full_trace: "REQ-005 → Step 4.1 → T011"
+  - plan_item: "4.2"
+    source_requirements: ["REQ-005"]
+    tasks: ["T012"]
+    full_trace: "REQ-005 → Step 4.2 → T012"
+  - plan_item: "4.3"
+    source_requirements: ["REQ-005"]
+    tasks: ["T013"]
+    full_trace: "REQ-005 → Step 4.3 → T013"
+  - plan_item: "5.1"
+    source_requirements: ["REQ-006"]
+    tasks: ["T014"]
+    full_trace: "REQ-006 → Step 5.1 → T014"
+  - plan_item: "5.2"
+    source_requirements: ["REQ-007"]
+    tasks: ["T015"]
+    full_trace: "REQ-007 → Step 5.2 → T015"
+  - plan_item: "5.3"
+    source_requirements: ["REQ-006", "REQ-007"]
+    tasks: ["T016"]
+    full_trace: "REQ-006,REQ-007 → Step 5.3 → T016"
+  - plan_item: "6.1"
+    source_requirements: ["REQ-008"]
+    tasks: ["T017"]
+    full_trace: "REQ-008 → Step 6.1 → T017"
+  - plan_item: "6.2"
+    source_requirements: ["REQ-008"]
+    tasks: ["T018"]
+    full_trace: "REQ-008 → Step 6.2 → T018"
+  - plan_item: "6.3"
+    source_requirements: ["REQ-008"]
+    tasks: ["T019"]
+    full_trace: "REQ-008 → Step 6.3 → T019"
+  - plan_item: "6.4"
+    source_requirements: ["REQ-010"]
+    tasks: ["T020"]
+    full_trace: "REQ-010 → Step 6.4 → T020"
+  - plan_item: "6.5"
+    source_requirements: ["REQ-010"]
+    tasks: ["T021"]
+    full_trace: "REQ-010 → Step 6.5 → T021"
+  - plan_item: "7.1"
+    source_requirements: ["REQ-009"]
+    tasks: ["T022"]
+    full_trace: "REQ-009 → Step 7.1 → T022"
+  - plan_item: "7.2"
+    source_requirements: ["REQ-009", "REQ-010"]
+    tasks: ["T023"]
+    full_trace: "REQ-009,REQ-010 → Step 7.2 → T023"
+
+validation:
+  passed: true
+  errors: []
+  warnings: []

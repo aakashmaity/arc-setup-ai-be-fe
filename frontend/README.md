@@ -1,0 +1,26 @@
+# Frontend
+
+Next.js App Router application with the shared `skyloom-ui` workspace, Tailwind v4, Radix-based controls, TanStack Table v9, and Recharts v3.
+
+```sh
+npm install
+npm run dev
+```
+
+- `/design-system`: component gallery, search, live previews, usage snippets, theme/density controls, and design tokens.
+- `/design-system#data-table`: searchable paginated table with page-size selection.
+- `/design-system/analytics`: synthetic AI analytics dashboard with operational filters, ten chart examples, and a paginated request log.
+
+The root route redirects to `/design-system`. The ecommerce application remains planned in PLAN.md.
+
+## Validation
+
+```sh
+npm run check
+npm run build
+npm run test:browser
+```
+
+Browser tests start the production build on port 3100 and use installed Microsoft Edge in headless mode at mobile, tablet, and laptop widths. Change the Playwright channel if Edge is unavailable. Screenshots and test output go into ignored `.checks/`.
+
+See [sky-ui documentation](packages/sky-ui/README.md) for imports and token conventions, and [AI analytics research](docs/ai-analytics.md) for metric definitions, sources, and integration limits. All analytics data and prices are synthetic; no backend telemetry is connected.

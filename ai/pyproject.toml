@@ -1,0 +1,57 @@
+[project]
+name = "ai"
+version = "0.1.0"
+description = "FastAPI product chatbot with LangChain and MongoDB Atlas"
+readme = "README.md"
+authors = [
+    { name = "Akash Maity", email = "aakashmaity57@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.115.0",
+    "langchain>=1.0.0",
+    "langchain-core>=1.0.0",
+    "langchain-google-genai>=4.0.0",
+    "langchain-ollama>=1.0.0",
+    "langchain-openai>=1.0.0",
+    "pydantic-settings>=2.7.0",
+    "pymongo>=4.13.0",
+    "python-dotenv>=1.2.2",
+    "uvicorn[standard]>=0.34.0",
+]
+
+[project.scripts]
+ai = "ai.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.25.0",
+    "ruff>=0.9.0",
+]
+experiments = [
+    "chromadb",
+    "ipykernel>=7.2.0",
+    "langchain-pymupdf4llm",
+    "langchain-text-splitters>=1.1.3",
+    "notebook>=7.5.6",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py314"
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sky UI Tokens"
+  short_description: "Build themed, responsive sky-ui components"
+  default_prompt: "Use $sky-ui-tokens to build reusable, token-based UI for mobile, tablet, and laptop."
