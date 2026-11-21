@@ -7,12 +7,12 @@ npm install
 npm run dev
 ```
 
-- `/design-system`: component gallery, search, live previews, usage snippets, light/dark/system/sepia themes, typography profiles, and design tokens.
-- `/design-system#data-table`: searchable paginated table with draggable columns, pinning, and a left column-management drawer.
+- `/`: component gallery, search, live previews, usage snippets, light/dark/system/sepia themes, typography profiles, and design tokens.
+- `/#data-table`: searchable paginated table with draggable columns, pinning, and a left column-management drawer.
 - Every catalog card has a Playground tab with live variant/state controls, option comparison, reset, narrow previews, and copyable configuration code. Motion controls support System, Reduced, and None.
-- `/design-system/analytics`: synthetic AI analytics dashboard with operational filters, ten chart examples, and a paginated request log.
+- `/analytics`: synthetic AI analytics dashboard with operational filters, ten chart examples, and a paginated request log.
 
-The root route redirects to `/design-system`. The ecommerce application remains planned in PLAN.md.
+The root route renders the component catalog directly. Legacy `/design-system` URLs redirect to the new routes. The ecommerce application remains planned in PLAN.md.
 
 ## Validation
 
@@ -27,3 +27,11 @@ Browser tests start the production build on port 3100 and use installed Microsof
 See [sky-ui documentation](packages/sky-ui/README.md) for imports and token conventions, and [AI analytics research](docs/ai-analytics.md) for metric definitions, sources, and integration limits. All analytics data and prices are synthetic; no backend telemetry is connected.
 
 See [advanced UI research and coverage](docs/advanced-ui-research.md) for Aceternity, shadcn, and Vercel AI references, implemented behavior, and validation boundaries.
+
+## Deploy the website
+
+Import `aakashmaity/arc-setup-ai-be-fe` into Vercel and set **Root Directory** to `frontend`. Use the **Next.js** framework preset and the default install command. Build command: `npm run build`; leave the output directory at its default.
+
+The component catalog is served at `/` and analytics at `/analytics`. No application API keys are required. The standalone `skyloom-ui` repository contains the npm library; deploy this frontend repository to host the catalog.
+
+After deployment, set the package's `homepage` field to the deployed HTTPS URL and publish a new npm version to update its npm homepage link.

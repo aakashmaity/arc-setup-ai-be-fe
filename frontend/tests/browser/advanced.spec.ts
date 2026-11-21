@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("advanced components support keyboard interaction and responsive layout", async ({ page }, info) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.goto("/design-system");
+  await page.goto("/");
   const search = page.getByLabel("Search components");
   await search.fill("compare");
   const compare = page.locator("#compare");
@@ -40,7 +40,7 @@ test("advanced components support keyboard interaction and responsive layout", a
 
 
 test("dock focus and image loading remain usable across themes", async ({ page }) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   const search = page.getByLabel("Search components");
   await search.fill("floating dock");
   const home = page.locator("#floating-dock").getByRole("link", { name: "Home", exact: true });
@@ -62,7 +62,7 @@ test("dock focus and image loading remain usable across themes", async ({ page }
 });
 
 test("modern comparison treatment follows dragging and reduced motion", async ({ page }) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("compare");
   const card = page.locator("#compare");
   await card.getByRole("tab", { name: "Playground", exact: true }).click();

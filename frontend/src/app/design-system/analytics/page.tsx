@@ -1,2 +1,3 @@
-import { AIAnalytics } from "../../../features/design-system/ai-examples";
-export default function AnalyticsPage() { return <AIAnalytics />; }
+import { permanentRedirect } from "next/navigation";
+
+export default function LegacyAnalyticsPage() { permanentRedirect("/analytics"); }

@@ -11,5 +11,5 @@ export default defineConfig({
     { name: "tablet", use: { viewport: { width: 834, height: 1112 } } },
     { name: "laptop", use: { viewport: { width: 1440, height: 1000 } } },
   ],
-  webServer: { command: "npm run start -- --hostname 127.0.0.1 --port 3100", url: "http://127.0.0.1:3100/design-system", reuseExistingServer: false, timeout: 60000 },
+  webServer: { command: "npm run start -- --hostname 127.0.0.1 --port 3100", url: "http://127.0.0.1:3100/", reuseExistingServer: false, timeout: 60000 },
 });

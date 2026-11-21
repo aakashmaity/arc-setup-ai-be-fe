@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { ArrowUpRight, Check, Code2, Copy, Layers, Search } from "lucide-react";
+import { Check, Code2, Copy, Layers, Search } from "lucide-react";
 import { Badge, Button, Card, EmptyState, Input, Label, ThemeControls, Separator, Tabs, TabsList, TabsTrigger, TabsContent, cn } from "skyloom-ui";
 import { categories, examples as originalExamples, type Category, type Example } from "./examples";
 import { ComponentPlayground } from "./component-playground";
@@ -51,10 +51,9 @@ export function DesignSystem() {
     <a href="#main" className="sky-focus sr-only focus:not-sr-only focus:block focus:p-panel">Skip to content</a>
     <header className="sticky top-0 z-10 bg-background">
       <div className="mx-auto flex min-h-header max-w-container flex-wrap items-center justify-between gap-stack px-page py-control tablet:px-page-wide">
-        <a href="/design-system" className="sky-focus flex items-center gap-inline rounded-control" aria-label="Sky UI design system"><span className="flex size-field items-center justify-center rounded-control bg-primary text-primary-foreground"><Layers aria-hidden="true" className="shrink-0 size-icon" /></span><span className="text-title font-semibold">sky<span className="text-muted-foreground"> / </span>ui</span><Badge variant="outline">0.1</Badge></a>
+        <a href="/" className="sky-focus flex items-center gap-inline rounded-control" aria-label="Sky UI design system"><span className="flex size-field items-center justify-center rounded-control bg-primary text-primary-foreground"><Layers aria-hidden="true" className="shrink-0 size-icon" /></span><span className="text-title font-semibold">sky<span className="text-muted-foreground"> / </span>ui</span><Badge variant="outline">0.1</Badge></a>
         <div className="flex min-w-0 flex-wrap items-center gap-control">
           <ThemeControls />
-          <Button variant="ghost" asChild className="hidden tablet:inline-flex"><a href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">shadcn/ui <ArrowUpRight aria-hidden="true" className="shrink-0 size-icon" /></a></Button>
         </div>
       </div><Separator />
     </header>
@@ -65,11 +64,11 @@ export function DesignSystem() {
           <p className="px-inline pb-control text-caption font-semibold text-muted-foreground">WORKSPACE</p>
           <a href="#overview" className="sky-focus rounded-control px-inline py-control text-label hover:bg-secondary">Overview</a>
           <a href="#tokens" className="sky-focus rounded-control px-inline py-control text-label hover:bg-secondary">Design tokens</a>
-          <a href="/design-system/analytics" className="sky-focus rounded-control px-inline py-control text-label hover:bg-secondary">AI analytics dashboard</a>
+          <a href="/analytics" className="sky-focus rounded-control px-inline py-control text-label hover:bg-secondary">AI analytics dashboard</a>
           <p className="px-inline pb-control pt-panel text-caption font-semibold text-muted-foreground">COMPONENT LIBRARY</p>
           {categories.map(item => <Button key={item} variant={category === item ? "secondary" : "ghost"} className="w-full justify-between px-inline" aria-pressed={category === item} onClick={() => { setCategory(item); document.getElementById("components")?.scrollIntoView(); }}><span>{item}</span><span className="text-caption text-muted-foreground">{item === "All components" ? examples.length : examples.filter(example => example.category === item).length}</span></Button>)}
           <Separator className="my-panel" />
-          <p className="px-inline text-caption leading-body text-muted-foreground">Built with shadcn/ui patterns.<br />Made to feel like your product.</p>
+          <p className="px-inline text-caption leading-body text-muted-foreground">Reusable components.<br />Made to feel like your product.</p>
         </nav>
       </aside>
 
@@ -78,7 +77,7 @@ export function DesignSystem() {
           <div className="mb-panel flex flex-wrap items-center gap-control"><Badge variant="secondary"><span className="size-control rounded-full bg-primary" />The Sky UI collection</Badge><span className="text-caption text-muted-foreground">Open. Composable. Yours.</span></div>
           <h1 className="ds-heading font-semibold">Good interfaces start<br className="hidden tablet:block" /> with good foundations.</h1>
           <p className="mt-panel max-w-dialog text-body leading-body text-muted-foreground">A living library of thoughtful components. Explore the details, try the interactions, and build something that feels right.</p>
-          <div className="mt-panel flex flex-wrap items-center gap-stack"><Button asChild><a href="#components">Explore components <ArrowUpRight aria-hidden="true" className="shrink-0 size-icon" /></a></Button><Button variant="outline" asChild><a href="/design-system/analytics">Explore AI analytics</a></Button></div>
+          <div className="mt-panel flex flex-wrap items-center gap-stack"><Button asChild><a href="#components">Explore components</a></Button><Button variant="outline" asChild><a href="/analytics">Explore AI analytics</a></Button></div>
           <div className="mt-page-wide flex flex-wrap items-center gap-panel text-caption text-muted-foreground"><span><strong className="text-foreground">{examples.length}</strong> live examples</span><span><strong className="text-foreground">4</strong> palettes / 3 themes + system</span><span>Mobile → Tablet → Laptop</span></div>
         </section>
 
@@ -98,7 +97,7 @@ export function DesignSystem() {
           <div className="grid grid-cols-2 gap-stack tablet:grid-cols-3">{swatches.map(token => <Card key={token} className="overflow-hidden shadow-none"><div className="ds-swatch h-header" style={{ "--swatch": `var(--${token})` } as CSSProperties} /><div className="p-inline"><p className="text-label font-medium">{token}</p><code className="text-caption text-muted-foreground">--{token}</code></div></Card>)}</div>
           <div className="mt-panel grid gap-panel tablet:grid-cols-2"><Card className="p-panel shadow-none"><h3 className="font-semibold">Spacing & density</h3><p className="mt-control text-label leading-body text-muted-foreground">Controls, panels, and page layouts share semantic spacing. Comfortable by default, compact when you need it.</p><div className="mt-stack flex items-end gap-control" aria-label="Token spacing scale">{["h-control", "h-inline", "h-panel", "h-page-wide", "h-field-lg"].map(size => <span key={size} className={cn("w-inline rounded-control bg-primary", size)} />)}</div></Card><Card className="p-panel shadow-none"><h3 className="font-semibold">Built to fit</h3><p className="mt-control text-label leading-body text-muted-foreground">Mobile-first layouts grow at the tablet and laptop breakpoints. Touch targets stay usable, even with compact density.</p><div className="mt-stack flex flex-wrap gap-control"><Badge variant="secondary">Base · mobile</Badge><Badge variant="secondary">tablet · 48rem</Badge><Badge variant="secondary">laptop · 64rem</Badge></div></Card></div>
         </section>
-        <footer className="mt-panel flex flex-wrap items-center justify-between gap-stack py-panel text-caption text-muted-foreground"><span>Sky UI · A foundation for everyday interfaces.</span><a className="sky-focus hover:text-foreground" href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">Inspired by shadcn/ui ↗</a></footer>
+        <footer className="mt-panel flex flex-wrap items-center justify-between gap-stack py-panel text-caption text-muted-foreground"><span>Sky UI · A foundation for everyday interfaces.</span><a className="sky-focus hover:text-foreground" href="https://github.com/aakashmaity/skyloom-ui" target="_blank" rel="noreferrer">GitHub</a></footer>
       </main>
     </div>
   </div>;

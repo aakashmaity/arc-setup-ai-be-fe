@@ -13,7 +13,7 @@ test("saved system theme and typography apply before application hydration", asy
   });
   let blockedScripts = 0;
   await page.route("**/_next/static/**/*.js", route => { blockedScripts++; return route.abort(); });
-  await page.goto("/design-system", { waitUntil: "load" });
+  await page.goto("/", { waitUntil: "load" });
   expect(blockedScripts).toBeGreaterThan(0);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("html")).toHaveAttribute("data-theme-preference", "system");
@@ -24,7 +24,7 @@ test("system, sepia, and typography preferences persist and reach portals", asyn
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.emulateMedia({ colorScheme: "dark" });
-  await page.goto("/design-system");
+  await page.goto("/");
   await choose(page, "Color theme", "System");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await page.emulateMedia({ colorScheme: "light" });
@@ -56,7 +56,7 @@ test("system, sepia, and typography preferences persist and reach portals", asyn
 });
 
 test("column drawer reorders, hides, pins, cancels drags, and persists", async ({ page }, info) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Paginated Data Table");
   const table = page.locator("#data-table");
   await table.getByRole("button", { name: "Next", exact: true }).click();
@@ -111,7 +111,7 @@ test("column drawer reorders, hides, pins, cancels drags, and persists", async (
 
 test("header drag and measured pin offsets survive font, direction, and viewport changes", async ({ page }, info) => {
   test.skip(info.project.name !== "laptop", "Full-width geometry and pointer drag; drawer behavior runs at every size.");
-  await page.goto("/design-system/analytics");
+  await page.goto("/analytics");
   const table = page.locator("table.sky-managed-table");
   const from = page.getByRole("button", { name: "Move Request column", exact: true });
   const to = page.getByRole("button", { name: "Move Status column", exact: true });

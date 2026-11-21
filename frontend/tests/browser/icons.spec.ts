@@ -14,7 +14,7 @@ async function centered(control: Locator, icon: Locator, square = true) {
 
 test("SVG disclosure stays aligned across fonts, themes, density, and reading direction", async ({ page }, info) => {
   test.setTimeout(120000);
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Tool Status");
   const card = page.locator("#tool-status");
   await card.getByRole("tab", { name: "Playground", exact: true }).click();
@@ -50,7 +50,7 @@ test("SVG disclosure stays aligned across fonts, themes, density, and reading di
 });
 
 test("select and drawer SVGs align without changing control names or keyboard behavior", async ({ page }, info) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   const theme = page.getByRole("combobox", { name: "Color theme" });
   await centered(theme, theme.locator("svg"));
   await theme.click();

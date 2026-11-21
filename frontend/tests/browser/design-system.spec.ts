@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("palette and appearance controls persist and dialogs inherit every theme combination", async ({ page }, testInfo) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByRole("combobox", { name: "Color palette" }).click();
   await page.getByRole("option", { name: "Ocean", exact: true }).click();
   await page.getByRole("combobox", { name: "Component appearance" }).click();
@@ -68,7 +68,7 @@ test("palette and appearance controls persist and dialogs inherit every theme co
 test("gallery pagination and responsive layout", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Paginated Data Table");
   const table = page.locator("#data-table");
   await expect(table.getByText("Showing 1–5 of 84 rows")).toBeVisible();
@@ -86,7 +86,7 @@ test("gallery pagination and responsive layout", async ({ page }) => {
 test("AI charts render and filters, themes, and data tables work", async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.goto("/design-system/analytics");
+  await page.goto("/analytics");
   await expect(page.getByRole("heading", { name: "AI, in perspective." })).toBeVisible();
   await expect(page.locator(".sky-chart svg.recharts-surface")).toHaveCount(9);
   for (const chart of await page.locator(".sky-chart").all()) {

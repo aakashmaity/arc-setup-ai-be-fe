@@ -1,2 +1,3 @@
-import { redirect } from "next/navigation";
-export default function Home() { redirect("/design-system"); }
+import { DesignSystem } from "../features/design-system/design-system";
+
+export default function Home() { return <DesignSystem />; }

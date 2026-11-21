@@ -1,2 +1,3 @@
-import { DesignSystem } from "../../features/design-system/design-system";
-export default function DesignSystemPage() { return <DesignSystem />; }
+import { permanentRedirect } from "next/navigation";
+
+export default function LegacyDesignSystemPage() { permanentRedirect("/"); }

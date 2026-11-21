@@ -8,7 +8,7 @@ async function choose(page: Page, name: string, option: string) {
 test("variant playground compares, generates code, resets, and fits narrow screens", async ({ page }, info) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Button");
   const card = page.locator("#button");
   await card.getByRole("tab", { name: "Playground", exact: true }).click();
@@ -38,7 +38,7 @@ test("variant playground compares, generates code, resets, and fits narrow scree
 
 test("motion preferences and OS reduction reach portals and interactive surfaces", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Sheet");
   const card = page.locator("#sheet");
   await card.getByRole("tab", { name: "Playground", exact: true }).click();
@@ -81,7 +81,7 @@ test("every catalog entry opens a functioning playground", async ({ page }, info
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/design-system");
+  await page.goto("/");
   const ids = await page.locator("#components .ds-section").evaluateAll(cards => cards.map(card => card.id));
   expect(ids.length).toBeGreaterThan(50);
   for (const id of ids) {
@@ -94,7 +94,7 @@ test("every catalog entry opens a functioning playground", async ({ page }, info
 });
 
 test("column drawer keeps its actions visible while its column list scrolls", async ({ page }) => {
-  await page.goto("/design-system");
+  await page.goto("/");
   await page.getByLabel("Search components").fill("Paginated Data Table");
   await page.getByRole("button", { name: "Manage columns", exact: true }).click();
   const drawer = page.getByRole("dialog", { name: "Manage columns" });
