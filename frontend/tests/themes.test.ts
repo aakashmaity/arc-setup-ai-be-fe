@@ -9,6 +9,7 @@ function properties(text: string) {
 const foundation = properties(css.split(":root, ")[0]);
 const light = properties(css.split(':root, :root[data-theme="light"] {')[1].split("}")[0]);
 const dark = properties(css.split(':root[data-theme="dark"] {')[1].split("}")[0]);
+const sepia = properties(css.split(':root[data-theme="sepia"] {')[1].split("}")[0]);
 
 function resolve(name: string, tokens: Record<string, string>, seen = new Set<string>()): string {
   if (seen.has(name)) throw new Error(`Cyclic token: ${name}`);
@@ -32,15 +33,18 @@ function luminance(color: string) {
 }
 
 describe("theme contracts", () => {
-  for (const [name, mode] of Object.entries({ light, dark })) {
-    it(`${name} resolves foreground/background pairs with readable text contrast`, () => {
-      const tokens = { ...foundation, ...light, ...mode };
-      for (const [bg, fg] of [["background", "foreground"], ...["card", "popover", "primary", "secondary", "muted", "accent", "destructive", "success"].map(role => [role, `${role}-foreground`])]) {
-        const a = luminance(resolve(`--${bg}`, tokens));
-        const b = luminance(resolve(`--${fg}`, tokens));
-        const ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
-        expect(ratio, `${name}: ${bg}/${fg}`).toBeGreaterThanOrEqual(4.5);
-      }
-    });
+  const palettes = Object.fromEntries(["sage", "ocean", "violet", "neutral"].map(name => [name, properties(css.split(`:root[data-palette="${name}"] {`)[1]?.split("}")[0] ?? "")]));
+  for (const [palette, overrides] of Object.entries(palettes)) {
+    for (const [name, mode] of Object.entries({ light, dark, sepia })) {
+      it(`${palette}/${name} resolves foreground/background pairs with readable text contrast`, () => {
+        const tokens = { ...foundation, ...light, ...mode, ...overrides };
+        for (const [bg, fg] of [["background", "foreground"], ["secondary", "primary"], ["card", "warning"], ["card", "info"], ...["card", "popover", "primary", "secondary", "muted", "accent", "destructive", "success", "warning", "info"].map(role => [role, `${role}-foreground`])]) {
+          const a = luminance(resolve(`--${bg}`, tokens));
+          const b = luminance(resolve(`--${fg}`, tokens));
+          const ratio = (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+          expect(ratio, `${palette}/${name}: ${bg}/${fg}`).toBeGreaterThanOrEqual(4.5);
+        }
+      });
+    }
   }
 });

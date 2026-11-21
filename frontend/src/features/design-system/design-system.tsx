@@ -1,31 +1,37 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
-import { ArrowUpRight, Check, Code2, Copy, Layers, Moon, Search, Sun } from "lucide-react";
-import { Badge, Button, Card, EmptyState, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Separator, Tabs, TabsList, TabsTrigger, TabsContent, cn } from "skyloom-ui";
-import { categories, examples, type Category, type Example } from "./examples";
+import { useState, type CSSProperties } from "react";
+import { ArrowUpRight, Check, Code2, Copy, Layers, Search } from "lucide-react";
+import { Badge, Button, Card, EmptyState, Input, Label, ThemeControls, Separator, Tabs, TabsList, TabsTrigger, TabsContent, cn } from "skyloom-ui";
+import { categories, examples as originalExamples, type Category, type Example } from "./examples";
+import { ComponentPlayground } from "./component-playground";
+import { playgrounds, playgroundExamples } from "./playgrounds";
+const examples = [...playgroundExamples, ...originalExamples];
 
 function ExampleCard({ example }: { example: Example }) {
   const [copyState, setCopyState] = useState("Copy code");
-  const source = `${example.code.includes("useState") ? 'import { useState } from "react";\n' : ""}import { ${example.imports} } from "skyloom-ui";\n\n${example.code}`;
+  const source = !example.imports ? example.code : `${example.code.includes("useState") ? 'import { useState } from "react";\n' : ""}import { ${example.imports} } from "skyloom-ui";\n\n${example.code}`;
   async function copy() {
     try { await navigator.clipboard.writeText(source); setCopyState("Copied"); }
     catch { setCopyState("Select the code to copy"); }
   }
-  return <Card id={example.id} className="ds-section min-w-0 overflow-hidden shadow-none">
+  const [view, setView] = useState("preview");
+  return <Card id={example.id} className={cn("ds-section min-w-0 overflow-hidden shadow-none", view === "playground" && "tablet:col-span-2")}>
     <div className="flex items-start justify-between gap-control p-panel">
       <div className="min-w-0"><h3 className="text-body font-semibold">{example.name}</h3><p className="mt-control text-label leading-body text-muted-foreground">{example.description}</p></div>
       {example.isNew && <Badge variant="secondary">New</Badge>}
     </div>
-    <Tabs defaultValue="preview">
+    <Tabs value={view} onValueChange={setView}>
       <div className="px-panel"><TabsList aria-label={`${example.name} view`} className="w-fit bg-transparent p-0">
         <TabsTrigger value="preview" className="data-[state=active]:bg-secondary">Preview</TabsTrigger>
-        <TabsTrigger value="code" className="data-[state=active]:bg-secondary"><span className="flex items-center gap-control"><Code2 className="size-icon" />Code</span></TabsTrigger>
+        <TabsTrigger value="playground" className="data-[state=active]:bg-secondary">Playground</TabsTrigger>
+        <TabsTrigger value="code" className="data-[state=active]:bg-secondary"><span className="flex items-center gap-control"><Code2 aria-hidden="true" className="shrink-0 size-icon" />Code</span></TabsTrigger>
       </TabsList></div>
       <TabsContent value="preview" className="m-0 p-panel"><div className="flex min-h-preview w-full items-center"><div className="w-full min-w-0"><example.Demo /></div></div></TabsContent>
+      <TabsContent value="playground" className="m-0 p-panel"><ComponentPlayground name={example.name} definition={playgrounds[example.id]} /></TabsContent>
       <TabsContent value="code" className="m-0 p-panel">
         <div className="min-h-preview rounded-control bg-muted p-inline">
-          <div className="mb-stack flex items-center justify-between gap-control"><span className="text-caption text-muted-foreground">Usage · TSX</span><Button size="sm" variant="ghost" onClick={copy}>{copyState === "Copied" ? <Check className="size-icon" /> : <Copy className="size-icon" />}<span aria-live="polite">{copyState}</span></Button></div>
+          <div className="mb-stack flex items-center justify-between gap-control"><span className="text-caption text-muted-foreground">Usage · TSX</span><Button size="sm" variant="ghost" onClick={copy}>{copyState === "Copied" ? <Check aria-hidden="true" className="shrink-0 size-icon" /> : <Copy aria-hidden="true" className="shrink-0 size-icon" />}<span aria-live="polite">{copyState}</span></Button></div>
           <pre tabIndex={0} aria-label={`${example.name} code`} className="sky-focus max-w-full overflow-x-auto text-caption leading-body"><code>{source}</code></pre>
         </div>
       </TabsContent>
@@ -39,37 +45,16 @@ const swatches = ["background", "foreground", "primary", "secondary", "muted", "
 export function DesignSystem() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<Category>("All components");
-  const [theme, setTheme] = useState("light");
-  const [density, setDensity] = useState("comfortable");
-
-  useEffect(() => {
-    try {
-      const savedTheme = localStorage.getItem("sky-ui-theme");
-      const savedDensity = localStorage.getItem("sky-ui-density");
-      if (savedTheme === "dark" || savedTheme === "light") { setTheme(savedTheme); document.documentElement.dataset.theme = savedTheme; }
-      if (savedDensity === "compact" || savedDensity === "comfortable") { setDensity(savedDensity); document.documentElement.dataset.density = savedDensity; }
-    } catch { /* The catalog still works when storage is unavailable. */ }
-  }, []);
-
-  function changeTheme(value: string) {
-    setTheme(value); document.documentElement.dataset.theme = value;
-    try { localStorage.setItem("sky-ui-theme", value); } catch { /* Optional persistence. */ }
-  }
-  function changeDensity(value: string) {
-    setDensity(value); document.documentElement.dataset.density = value;
-    try { localStorage.setItem("sky-ui-density", value); } catch { /* Optional persistence. */ }
-  }
   const filtered = examples.filter(example => (category === "All components" || example.category === category) && `${example.name} ${example.description} ${example.imports}`.toLowerCase().includes(query.toLowerCase().trim()));
 
   return <div className="min-h-dvh">
     <a href="#main" className="sky-focus sr-only focus:not-sr-only focus:block focus:p-panel">Skip to content</a>
     <header className="sticky top-0 z-10 bg-background">
       <div className="mx-auto flex min-h-header max-w-container flex-wrap items-center justify-between gap-stack px-page py-control tablet:px-page-wide">
-        <a href="/design-system" className="sky-focus flex items-center gap-inline rounded-control" aria-label="Sky UI design system"><span className="flex size-field items-center justify-center rounded-control bg-primary text-primary-foreground"><Layers className="size-icon" /></span><span className="text-title font-semibold">sky<span className="text-muted-foreground"> / </span>ui</span><Badge variant="outline">0.1</Badge></a>
-        <div className="flex items-center gap-control">
-          <Button variant="ghost" size="icon" aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"} onClick={() => changeTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? <Moon className="size-icon" /> : <Sun className="size-icon" />}</Button>
-          <Select value={density} onValueChange={changeDensity}><SelectTrigger aria-label="Interface density" className="w-auto"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="comfortable">Comfortable</SelectItem><SelectItem value="compact">Compact</SelectItem></SelectContent></Select>
-          <Button variant="ghost" asChild className="hidden tablet:inline-flex"><a href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">shadcn/ui <ArrowUpRight className="size-icon" /></a></Button>
+        <a href="/design-system" className="sky-focus flex items-center gap-inline rounded-control" aria-label="Sky UI design system"><span className="flex size-field items-center justify-center rounded-control bg-primary text-primary-foreground"><Layers aria-hidden="true" className="shrink-0 size-icon" /></span><span className="text-title font-semibold">sky<span className="text-muted-foreground"> / </span>ui</span><Badge variant="outline">0.1</Badge></a>
+        <div className="flex min-w-0 flex-wrap items-center gap-control">
+          <ThemeControls />
+          <Button variant="ghost" asChild className="hidden tablet:inline-flex"><a href="https://ui.shadcn.com/" target="_blank" rel="noreferrer">shadcn/ui <ArrowUpRight aria-hidden="true" className="shrink-0 size-icon" /></a></Button>
         </div>
       </div><Separator />
     </header>
@@ -93,15 +78,15 @@ export function DesignSystem() {
           <div className="mb-panel flex flex-wrap items-center gap-control"><Badge variant="secondary"><span className="size-control rounded-full bg-primary" />The Sky UI collection</Badge><span className="text-caption text-muted-foreground">Open. Composable. Yours.</span></div>
           <h1 className="ds-heading font-semibold">Good interfaces start<br className="hidden tablet:block" /> with good foundations.</h1>
           <p className="mt-panel max-w-dialog text-body leading-body text-muted-foreground">A living library of thoughtful components. Explore the details, try the interactions, and build something that feels right.</p>
-          <div className="mt-panel flex flex-wrap items-center gap-stack"><Button asChild><a href="#components">Explore components <ArrowUpRight className="size-icon" /></a></Button><Button variant="outline" asChild><a href="/design-system/analytics">Explore AI analytics</a></Button></div>
-          <div className="mt-page-wide flex flex-wrap items-center gap-panel text-caption text-muted-foreground"><span><strong className="text-foreground">{examples.length}</strong> live examples</span><span><strong className="text-foreground">2</strong> color themes</span><span>Mobile → Tablet → Laptop</span></div>
+          <div className="mt-panel flex flex-wrap items-center gap-stack"><Button asChild><a href="#components">Explore components <ArrowUpRight aria-hidden="true" className="shrink-0 size-icon" /></a></Button><Button variant="outline" asChild><a href="/design-system/analytics">Explore AI analytics</a></Button></div>
+          <div className="mt-page-wide flex flex-wrap items-center gap-panel text-caption text-muted-foreground"><span><strong className="text-foreground">{examples.length}</strong> live examples</span><span><strong className="text-foreground">4</strong> palettes / 3 themes + system</span><span>Mobile → Tablet → Laptop</span></div>
         </section>
 
         <Separator className="my-page-wide" />
         <section id="components" className="ds-section">
           <div className="mb-panel flex flex-col justify-between gap-stack tablet:flex-row tablet:items-center">
-            <div><h2 className="text-title font-semibold">The component library</h2><p className="mt-control text-label text-muted-foreground">Preview, play, and make it your own.</p></div>
-            <div className="relative w-full tablet:w-preview-wide"><Label htmlFor="component-search" className="sr-only">Search components</Label><Input id="component-search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search components…" className="pe-field" /><Search className="pointer-events-none absolute end-inline top-1/2 size-icon -translate-y-1/2 text-muted-foreground" /></div>
+            <div><h2 className="text-title font-semibold">The component library</h2><p className="mt-control text-label text-muted-foreground">Open Playground to choose variants, compare states, and copy your configuration.</p></div>
+            <div className="relative w-full tablet:w-preview-wide"><Label htmlFor="component-search" className="sr-only">Search components</Label><Input id="component-search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search components…" className="pe-field" /><Search aria-hidden="true" className="shrink-0 pointer-events-none absolute end-inline top-1/2 size-icon -translate-y-1/2 text-muted-foreground" /></div>
           </div>
           <div className="mb-panel flex flex-wrap gap-control laptop:hidden" aria-label="Component categories">{categories.map(item => <Button key={item} size="sm" variant={category === item ? "secondary" : "ghost"} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</Button>)}</div>
           <p role="status" className="mb-stack text-caption text-muted-foreground">{filtered.length} of {examples.length} examples{category !== "All components" ? ` · ${category}` : ""}</p>

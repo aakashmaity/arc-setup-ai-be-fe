@@ -1,8 +1,21 @@
 import type { ComponentPropsWithRef } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 
-export function Card({ className, ...props }: ComponentPropsWithRef<"div">) {
-  return <div className={cn("sky-border min-w-0 rounded-surface border-border bg-card text-card-foreground shadow-raised", className)} {...props} />;
+export const cardVariants = cva("sky-border min-w-0 rounded-surface border-border bg-card text-card-foreground", {
+  variants: { variant: {
+    default: "shadow-raised",
+    outline: "shadow-none",
+    soft: "border-transparent bg-muted text-foreground shadow-none",
+    classic: "rounded-control border-input shadow-raised",
+    modern: "rounded-modal shadow-none",
+    elevated: "shadow-floating",
+  } }, defaultVariants: { variant: "default" },
+});
+export type CardProps = ComponentPropsWithRef<"div"> & VariantProps<typeof cardVariants>;
+
+export function Card({ className, variant, ...props }: CardProps) {
+  return <div className={cn(cardVariants({ variant }), className)} {...props} />;
 }
 export function CardHeader({ className, ...props }: ComponentPropsWithRef<"div">) {
   return <div className={cn("grid gap-control p-panel", className)} {...props} />;

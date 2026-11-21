@@ -6,6 +6,6 @@ export function Skeleton({ className, ...props }: ComponentPropsWithRef<"div">) 
 }
 export function Spinner({ className, label = "Loading", ...props }: ComponentPropsWithRef<"span"> & { label?: string }) {
   return <span role="status" className={cn("inline-flex items-center gap-control", className)} {...props}>
-    <span aria-hidden="true" className="sky-spinner size-icon" /><span className="sr-only">{label}</span>
+    <span aria-hidden="true" className="sky-spinner size-icon shrink-0" /><span className="sr-only">{label}</span>
   </span>;
 }

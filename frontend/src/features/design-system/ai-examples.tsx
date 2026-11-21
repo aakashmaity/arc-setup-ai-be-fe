@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, CartesianChart, Container, DataTable, DonutChart, Heatmap, ScatterPlot, SelectField, type DataTableColumn, type ChartColor } from "skyloom-ui";
+import { Icon, Badge, Button, Card, CardContent, CardHeader, CardTitle, CartesianChart, Container, DataTable, DonutChart, Heatmap, ScatterPlot, SelectField, useTheme, type DataTableColumn, type ChartColor } from "skyloom-ui";
 import { aggregateRequests, evaluationRows, modelNames, percentile, requests, retrievalRows, type AIRequest } from "./ai-data";
 
 const columns: DataTableColumn<AIRequest>[] = [
@@ -14,7 +14,7 @@ const columns: DataTableColumn<AIRequest>[] = [
 ];
 const searchText = (row: AIRequest) => `${row.id} ${row.model} ${row.status}`;
 const currency = (n: number) => `$${n.toFixed(3)}`;
-export function PaginatedTableDemo() { return <DataTable data={requests} columns={columns} getRowId={row => row.id} caption="Synthetic AI requests" initialPageSize={5} searchText={searchText} searchLabel="Search requests" />; }
+export function PaginatedTableDemo() { return <DataTable data={requests} columns={columns} getRowId={row => row.id} caption="Synthetic AI requests" initialPageSize={5} searchText={searchText} searchLabel="Search requests" columnLayoutStorageKey="sky-ui-request-demo-columns" />; }
 
 export function TokenUsageDemo({ rows = requests }: { rows?: AIRequest[] }) { return <CartesianChart title="Token usage" description="Synthetic daily totals. Cached input is a subset of input, shown separately without double-counting." kind="area" stacked unit="tokens" data={aggregateRequests(rows)} series={[{ key: "uncached", label: "Uncached input", color: "chart-1" }, { key: "cached", label: "Cached input", color: "chart-2" }, { key: "output", label: "Output", color: "chart-3" }]} />; }
 export function LatencyDemo({ rows = requests }: { rows?: AIRequest[] }) { return <CartesianChart title="Response latency" description="Synthetic successful requests. Nearest-rank p50/p95 duration and median time to first token." unit="seconds" data={aggregateRequests(rows)} series={[{ key: "p50", label: "Duration p50", color: "chart-1" }, { key: "p95", label: "Duration p95", color: "chart-2" }, { key: "ttft", label: "TTFT p50", color: "chart-3" }]} />; }
@@ -33,11 +33,12 @@ export function AgentDemo() { return <CartesianChart title="Agent completion sta
 export function AIAnalytics() {
   const [period, setPeriod] = useState("14");
   const [model, setModel] = useState("all");
-  const [dark, setDark] = useState(false);
+  const { resolvedTheme, updateSettings } = useTheme();
+  const dark = resolvedTheme === "dark";
   const rows = useMemo(() => requests.filter(row => Number(row.date.slice(-2)) > 14 - Number(period) && (model === "all" || row.model === model)), [period, model]);
   const failures = rows.filter(row => row.status === "Error").length;
   const p95 = percentile(rows.filter(row => row.status === "Success").map(row => row.duration / 1000), .95);
-  return <Container className="py-page-wide"><div className="mb-panel flex flex-wrap items-center justify-between gap-stack"><Button variant="outline" asChild><a href="/design-system">← Component library</a></Button><Button variant="outline" onClick={() => { setDark(!dark); document.documentElement.dataset.theme = dark ? "light" : "dark"; }}>{dark ? "Light theme" : "Dark theme"}</Button></div>
+  return <Container className="py-page-wide"><div className="mb-panel flex flex-wrap items-center justify-between gap-stack"><Button variant="outline" asChild><a href="/design-system"><Icon name="arrow-left" className="rtl:rotate-180" />Component library</a></Button><Button variant="outline" onClick={() => updateSettings({ theme: dark ? "light" : "dark" })}>{dark ? "Light theme" : "Dark theme"}</Button></div>
     <Badge variant="secondary">Synthetic demo · No live telemetry</Badge><h1 className="ds-heading mt-panel font-semibold">AI, in perspective.</h1><p className="mt-stack max-w-dialog text-body leading-body text-muted-foreground">See how your AI behaves, what it costs, and where to improve. Reusable charts and a paginated request log, all powered by Sky UI.</p>
     <div className="my-panel flex flex-col gap-stack tablet:flex-row"><SelectField id="ai-period" label="Operational window" value={period} onValueChange={setPeriod} options={[{ value: "14", label: "Nov 1–14, 2026" }, { value: "7", label: "Nov 8–14, 2026" }]} /><SelectField id="ai-model" label="Model" value={model} onValueChange={setModel} options={[{ value: "all", label: "All models" }, ...modelNames.map(value => ({ value, label: value }))]} /></div>
     <div className="grid gap-stack tablet:grid-cols-2 laptop:grid-cols-4">{[["Requests", String(rows.length)], ["Synthetic spend", currency(rows.reduce((sum, row) => sum + row.cost, 0))], ["Error rate", `${(failures / (rows.length || 1) * 100).toFixed(1)}%`], ["Duration p95", p95 == null ? "No data" : `${p95.toFixed(2)}s`]].map(([label, value]) => <Card key={label}><CardHeader><CardTitle className="text-label text-muted-foreground">{label}</CardTitle></CardHeader><CardContent className="text-title font-semibold">{value}</CardContent></Card>)}</div>

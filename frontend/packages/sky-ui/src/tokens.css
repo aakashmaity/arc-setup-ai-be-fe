@@ -15,6 +15,21 @@
   --sky-danger-dark: oklch(0.78 0.11 25);
   --sky-success-light: oklch(0.42 0.09 155);
   --sky-success-dark: oklch(0.8 0.1 155);
+  --sky-warning-light: oklch(0.44 0.09 65);
+  --sky-warning-dark: oklch(0.84 0.1 80);
+  --sky-info-light: oklch(0.44 0.12 250);
+  --sky-info-dark: oklch(0.8 0.09 250);
+  --sky-ocean-light: oklch(0.43 0.12 250);
+  --sky-ocean-dark: oklch(0.8 0.09 250);
+  --sky-violet-light: oklch(0.43 0.15 300);
+  --sky-violet-dark: oklch(0.8 0.1 300);
+  --sky-sepia-paper: oklch(.95 .025 80);
+  --sky-sepia-card: oklch(.98 .018 80);
+  --sky-sepia-ink: oklch(.25 .025 60);
+  --sky-sepia-muted: oklch(.9 .025 80);
+  --sky-sepia-strong: oklch(.43 .025 60);
+  --sky-sepia-border: oklch(.76 .035 80);
+  --sky-sepia-input: oklch(.59 .035 80);
   --sky-space-xs: .25rem;
   --sky-space-sm: .5rem;
   --sky-space-md: .75rem;
@@ -29,6 +44,8 @@
   --sky-choice: 1.125rem;
   --sky-textarea: 7rem;
   --sky-dialog: 32rem;
+  --sky-dialog-sm: 24rem;
+  --sky-dialog-lg: 48rem;
   --sky-sheet: 28rem;
   --sky-tooltip: 20rem;
   --sky-container: 80rem;
@@ -50,7 +67,17 @@
   --sky-radius-md: .75rem;
   --sky-radius-lg: 1rem;
   --sky-radius-pill: 100%;
-  --sky-font-family: ui-sans-serif, system-ui, sans-serif;
+  --sky-radius-capsule: 999rem;
+  --sky-family-system: ui-sans-serif, system-ui, sans-serif;
+  --sky-family-serif: ui-serif, Georgia, serif;
+  --sky-family-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sky-font-family: var(--sky-family-system);
+  --sky-font-body: var(--sky-font-family);
+  --sky-font-heading: var(--sky-font-body);
+  --sky-font-mono: var(--sky-family-mono);
+  --sky-table-center-min: var(--sky-preview);
+  --sky-layer-pinned: 1;
+  --sky-layer-drag: 2;
   --sky-text-caption: .75rem;
   --sky-text-label: .875rem;
   --sky-text-body: 1rem;
@@ -65,7 +92,27 @@
   --sky-opacity-disabled: .5;
   --sky-brightness-hover: .92;
   --sky-duration-fast: 140ms;
+  --sky-duration-enter: 220ms;
+  --sky-spring-stiffness: 180;
+  --sky-spring-damping: 18;
+  --sky-motion-distance: var(--sky-space-sm);
+  --sky-motion-scale: .98;
+  --sky-spotlight-radius: var(--sky-preview);
+  --sky-spotlight-strength: 12%;
   --sky-duration-loading: 1200ms;
+  --sky-duration-orbit: 4000ms;
+  --sky-duration-vanish: 600ms;
+  --sky-duration-particle: 700ms;
+  --sky-duration-particle-delay: 80ms;
+  --sky-duration-cover: 500ms;
+  --sky-glow-radius: 1rem;
+  --sky-loader-cell: .25rem;
+  --sky-loader-gap: .125rem;
+  --sky-loader-band: 3rem;
+  --sky-gallery-tile: 12rem;
+  --sky-gallery-height: 28rem;
+  --sky-nav-offset: var(--sky-space-lg);
+  --sky-compare-bend: 1.5rem;
   --sky-ease: cubic-bezier(.2, 0, 0, 1);
   --sky-layer-overlay: 40;
   --sky-layer-modal: 50;
@@ -104,6 +151,10 @@
   --destructive-foreground: var(--sky-white);
   --success: var(--sky-success-light);
   --success-foreground: var(--sky-white);
+  --warning: var(--sky-warning-light);
+  --warning-foreground: var(--sky-white);
+  --info: var(--sky-info-light);
+  --info-foreground: var(--sky-white);
   --border: var(--sky-neutral-border);
   --input: var(--sky-neutral-mid);
   --ring: var(--sky-brand-light);
@@ -115,7 +166,7 @@
   --chart-5: var(--sky-danger-light);
   color-scheme: light;
 }
-:root.dark:not([data-theme="light"]), :root[data-theme="dark"] {
+:root.dark:not([data-theme]), :root[data-theme="dark"] {
   --background: var(--sky-ink);
   --foreground: var(--sky-paper);
   --card: var(--sky-neutral-surface);
@@ -134,6 +185,10 @@
   --destructive-foreground: var(--sky-ink);
   --success: var(--sky-success-dark);
   --success-foreground: var(--sky-ink);
+  --warning: var(--sky-warning-dark);
+  --warning-foreground: var(--sky-ink);
+  --info: var(--sky-info-dark);
+  --info-foreground: var(--sky-ink);
   --border: var(--sky-neutral-strong);
   --input: var(--sky-neutral-mid);
   --ring: var(--sky-brand-dark);
@@ -144,10 +199,75 @@
   --chart-4: oklch(.8 .1 65);
   --chart-5: var(--sky-danger-dark);
 }
+:root[data-theme="sepia"] {
+  --background: var(--sky-sepia-paper);
+  --foreground: var(--sky-sepia-ink);
+  --card: var(--sky-sepia-card);
+  --card-foreground: var(--sky-sepia-ink);
+  --popover: var(--sky-sepia-card);
+  --popover-foreground: var(--sky-sepia-ink);
+  --primary: var(--sky-brand-light);
+  --primary-foreground: var(--sky-white);
+  --secondary: var(--sky-sepia-muted);
+  --secondary-foreground: var(--sky-sepia-ink);
+  --muted: var(--sky-sepia-muted);
+  --muted-foreground: var(--sky-sepia-strong);
+  --accent: var(--sky-sepia-muted);
+  --accent-foreground: var(--sky-sepia-ink);
+  --destructive: var(--sky-danger-light);
+  --destructive-foreground: var(--sky-white);
+  --success: var(--sky-success-light);
+  --success-foreground: var(--sky-white);
+  --warning: var(--sky-warning-light);
+  --warning-foreground: var(--sky-white);
+  --info: var(--sky-info-light);
+  --info-foreground: var(--sky-white);
+  --border: var(--sky-sepia-border);
+  --input: var(--sky-sepia-input);
+  --ring: var(--sky-brand-light);
+  --overlay: oklch(0 0 0 / .55);
+  --chart-1: var(--sky-brand-light);
+  --chart-2: var(--sky-info-light);
+  --chart-3: var(--sky-violet-light);
+  --chart-4: var(--sky-warning-light);
+  --chart-5: var(--sky-danger-light);
+  color-scheme: light;
+}
+:root[data-font="inter"], :root[data-font="editorial"] {
+  --sky-font-family: var(--sky-loaded-inter, var(--sky-family-system));
+}
+:root[data-font="editorial"] {
+  --sky-font-heading: var(--sky-loaded-serif, var(--sky-family-serif));
+}
 :root[data-density="compact"] {
   --sky-control-height: var(--sky-control-sm);
   --sky-space-inline: var(--sky-space-sm);
   --sky-space-control: var(--sky-space-xs);
   --sky-space-stack: var(--sky-space-sm);
   --sky-space-panel: var(--sky-space-lg);
+}
+
+/* Palette, appearance, mode, and density are independent document settings. */
+:root[data-palette="ocean"] {
+  --sky-brand-light: var(--sky-ocean-light);
+  --sky-brand-dark: var(--sky-ocean-dark);
+}
+:root[data-palette="violet"] {
+  --sky-brand-light: var(--sky-violet-light);
+  --sky-brand-dark: var(--sky-violet-dark);
+}
+:root[data-palette="neutral"] {
+  --sky-brand-light: var(--sky-ink);
+  --sky-brand-dark: var(--sky-paper);
+}
+:root[data-appearance="classic"] {
+  --sky-radius-control: var(--sky-radius-sm);
+  --sky-radius-surface: var(--sky-radius-sm);
+  --sky-radius-modal: var(--sky-radius-sm);
+}
+:root[data-appearance="modern"] {
+  --sky-radius-control: var(--sky-radius-md);
+  --sky-radius-surface: var(--sky-radius-lg);
+  --sky-radius-modal: var(--sky-radius-lg);
+  --sky-shadow-raised: none;
 }

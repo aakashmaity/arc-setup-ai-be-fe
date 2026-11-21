@@ -80,6 +80,25 @@ frontend/
 
 ### Shared UI and design-system progress
 
+The current package extension phase covers the following accepted requirements. The ecommerce application below is a separate future phase.
+
+- Theme tokens: Light, Dark, System preference, and Sepia, with independent palette, appearance, and density settings; root attributes also theme portals. ThemeScript applies preferences before hydration and ThemeProvider handles live OS changes and storage synchronization.
+- Typography: System, Inter, and Editorial profiles with independent body, heading, and monospace roles. Consumers can register additional profiles through the shared provider/script configuration and supply their font assets and CSS mappings.
+- DataTable: drag ordering in headers and a left management drawer, visibility switches, start/end pinning, keyboard and touch support, arrow-button alternatives, and reset. Controlled layouts and optional versioned persistence preserve pagination and filtering. Hidden columns retain configuration; drag moves remain within pin groups.
+- Responsive pinning: measured offsets follow font/density/viewport changes and replacement tables. Narrow layouts suspend stickiness while preserving pin choices and horizontal scrolling; logical insets support RTL.
+- Validation: contrast checks across palettes/themes, interaction and regression tests, production build, and browser checks at mobile/tablet/laptop sizes, including pre-hydration preferences, dragging, persistence, and pinning geometry.
+
+The follow-up gap audit added configurable font registration, malformed-layout recovery using caller defaults, and remeasurement after column-management toggles. It also verified preference retention when storage is unavailable and parent configuration objects are recreated.
+
+The advanced catalog phase adds variant/state playgrounds for every entry, option comparison and generated code, shared accessible motion settings, interactive cards, AI suggestions/tool status/task plans, and a refined scrolling column drawer. Research, implementation coverage, and boundaries are documented in [advanced UI research](docs/advanced-ui-research.md).
+
 The Next.js app now serves `/design-system` with interactive examples and `/design-system/analytics` with synthetic AI metrics. Sky UI includes a searchable paginated DataTable, Recharts-based line/area/bar/donut/scatter components, and a heatmap. The metric definitions and research sources are maintained in `docs/ai-analytics.md`. The ecommerce features below remain the next application phase.
 
 A visitor can browse and filter products, inspect a product, add it to the cart, update quantities, reload without losing the cart, and complete a simulated checkout within one continuous app experience. Closing panels preserves catalog context; keyboard focus and mobile navigation work throughout the flow. The app works on phone and desktop widths and builds successfully. Authentication, real payments, backend inventory, and an admin dashboard are outside this small demo scope.
+
+
+### Aceternity-inspired component expansion
+
+The package now includes loading, navigation, forms/upload, map/globe/timeline/code, layout/bento/infinite grids, animated previews, comparison sliders, and text effects. The catalog contains 98 examples with configuration, variant comparison, generated code, and playback controls. Shared SVG icons and semantic theme tokens remain the package foundation.
+
+Implementation and integration contracts are documented in `packages/sky-ui/README.md`; research references are in `docs/advanced-ui-research.md`. Native equivalents are used for the paid reference interactions. Uploads and account forms remain local UI; remote link metadata requires explicit opt-in.
